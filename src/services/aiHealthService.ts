@@ -1,4 +1,3 @@
-
 // AI Health Service - handles health-related AI responses
 // Note: Add your OpenAI API key to use real AI responses
 
@@ -30,6 +29,11 @@ const HEALTH_RESPONSES = {
 class AIHealthService {
   private apiKey: string | null = null;
 
+  constructor() {
+    // Set the provided API key immediately
+    this.setApiKey('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');
+  }
+
   // Method to set API key (can be called from settings)
   setApiKey(key: string) {
     this.apiKey = key;
@@ -60,7 +64,7 @@ class AIHealthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-4o-mini',
           messages: [
             {
               role: 'system',
