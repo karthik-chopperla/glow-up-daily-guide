@@ -1,5 +1,5 @@
 
-import { forwardRef } from 'react';
+import { forwardRef, useRef, useEffect } from 'react';
 import { Send, Mic } from 'lucide-react';
 
 interface ChatInputProps {
@@ -14,24 +14,43 @@ interface ChatInputProps {
 
 const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
   ({ message, isLoading, isListening, onMessageChange, onSend, onStartListening, hasSpeechRecognition }, ref) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
     const handleKeyPress = (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && !isLoading) {
+      if (e.key === 'Enter' && !e.shiftKey && !isLoading) {
+        e.preventDefault();
         onSend();
       }
     };
 
+    // Auto-resize textarea
+    useEffect(() => {
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+      }
+    }, [message]);
+
+    // Handle focus forwarding
+    useEffect(() => {
+      if (ref && typeof ref === 'object' && ref.current) {
+        const focusTextarea = () => textareaRef.current?.focus();
+        (ref.current as any).focus = focusTextarea;
+      }
+    }, [ref]);
+
     return (
       <div className="bg-white/80 backdrop-blur-md p-4 border-t border-green-100">
-        <div className="flex items-center space-x-3">
-          <input
-            ref={ref}
-            type="text"
+        <div className="flex items-end space-x-3">
+          <textarea
+            ref={textareaRef}
             value={message}
             onChange={(e) => onMessageChange(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask about nutrition, stress, exercise..."
             disabled={isLoading}
-            className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 border-none disabled:opacity-50"
+            rows={1}
+            className="flex-1 bg-gray-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 border-none disabled:opacity-50 resize-none min-h-[48px] max-h-[120px]"
             autoFocus
           />
           
@@ -40,7 +59,7 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
             <button
               onClick={onStartListening}
               disabled={isLoading || isListening}
-              className={`p-3 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`p-3 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ${
                 isListening 
                   ? 'bg-blue-500 text-white animate-pulse' 
                   : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
@@ -55,7 +74,7 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
           <button
             onClick={onSend}
             disabled={isLoading || !message.trim()}
-            className="bg-gradient-to-r from-green-400 to-blue-500 p-3 rounded-full text-white hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-green-400 to-blue-500 p-3 rounded-full text-white hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
           >
             <Send size={16} />
           </button>

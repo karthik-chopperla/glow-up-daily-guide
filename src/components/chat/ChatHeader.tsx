@@ -11,7 +11,8 @@ const ChatHeader = ({ userName, onClearChat }: ChatHeaderProps) => {
     <div className="bg-white/80 backdrop-blur-md p-6 border-b border-green-100 relative">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="bg-gradient-to-r from-green-400 to-blue-500 p-3 rounded-full mr-3">
+          {/* Bot Avatar */}
+          <div className="bg-gradient-to-r from-green-400 to-blue-500 p-3 rounded-full mr-3 animate-scale-in">
             <Bot className="text-white" size={24} />
           </div>
           <div>
@@ -19,7 +20,7 @@ const ChatHeader = ({ userName, onClearChat }: ChatHeaderProps) => {
               Health Mate AI 
               <Sparkles className="ml-2 text-yellow-500" size={16} />
             </h1>
-            <p className="text-sm text-gray-600">Chat with {userName} • Always here to help</p>
+            <p className="text-sm text-gray-600">Chat with {userName} • Always here to help 🤖</p>
           </div>
         </div>
         <button

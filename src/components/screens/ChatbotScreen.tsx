@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import NameInputModal from '../chat/NameInputModal';
 import ChatHeader from '../chat/ChatHeader';
 import QuickQuestions from '../chat/QuickQuestions';
+import HealthButtons from '../chat/HealthButtons';
 import MessageList from '../chat/MessageList';
 import ChatInput from '../chat/ChatInput';
 import ListeningIndicator from '../chat/ListeningIndicator';
+import SmartSuggestions from '../chat/SmartSuggestions';
 import { useChat } from '../../hooks/useChat';
 import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
 
@@ -28,7 +30,10 @@ const ChatbotScreen = () => {
     messagesEndRef,
     inputRef,
     handleSend,
-    clearChat
+    clearChat,
+    healthData,
+    getHealthSummary,
+    checkHeartRate
   } = useChat(userName);
 
   const handleSpeechResult = (transcript: string) => {
@@ -61,6 +66,21 @@ const ChatbotScreen = () => {
     setTimeout(() => inputRef.current?.focus(), 300);
   };
 
+  const handleStepsTrack = () => {
+    handleSend("How many steps did you walk today?");
+    setTimeout(() => inputRef.current?.focus(), 300);
+  };
+
+  const handleWaterTrack = () => {
+    handleSend("How many glasses of water did you drink today?");
+    setTimeout(() => inputRef.current?.focus(), 300);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    handleSend(suggestion);
+    setTimeout(() => inputRef.current?.focus(), 300);
+  };
+
   // Name input modal
   if (showNameInput) {
     return <NameInputModal onNameSubmit={handleNameSubmit} />;
@@ -69,8 +89,16 @@ const ChatbotScreen = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex flex-col">
       <div className="max-w-md mx-auto w-full flex flex-col h-screen">
-        {/* Header */}
+        {/* Header with bot avatar */}
         <ChatHeader userName={userName} onClearChat={clearChat} />
+
+        {/* Health Tracking Buttons */}
+        <HealthButtons 
+          onHealthSummary={getHealthSummary}
+          onHeartRateCheck={checkHeartRate}
+          onStepsTrack={handleStepsTrack}
+          onWaterTrack={handleWaterTrack}
+        />
 
         {/* Quick Questions */}
         <QuickQuestions 
@@ -88,6 +116,9 @@ const ChatbotScreen = () => {
 
         {/* Voice listening indicator */}
         <ListeningIndicator isListening={isListening} />
+
+        {/* Smart Suggestions */}
+        <SmartSuggestions onSuggestionClick={handleSuggestionClick} />
 
         {/* Input */}
         <ChatInput
