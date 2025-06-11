@@ -72,6 +72,10 @@ export const useChat = (userName: string) => {
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
     setMessage('');
+    
+    // Refocus input after clearing message
+    setTimeout(() => inputRef.current?.focus(), 300);
+    
     setIsLoading(true);
     
     try {

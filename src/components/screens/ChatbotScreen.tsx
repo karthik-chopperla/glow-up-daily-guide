@@ -57,6 +57,8 @@ const ChatbotScreen = () => {
 
   const handleQuickQuestion = (question: string) => {
     handleSend(question);
+    // Refocus input after quick question click
+    setTimeout(() => inputRef.current?.focus(), 300);
   };
 
   // Name input modal
