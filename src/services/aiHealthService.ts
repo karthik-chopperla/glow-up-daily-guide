@@ -30,8 +30,8 @@ class AIHealthService {
   private apiKey: string | null = null;
 
   constructor() {
-    // Set the provided API key immediately
-    this.setApiKey('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');
+    // Try to get API key from localStorage first
+    this.apiKey = this.getApiKey();
   }
 
   // Method to set API key (can be called from settings)
@@ -55,7 +55,7 @@ class AIHealthService {
       return this.getPredefinedResponse(query);
     }
 
-    // Try to use OpenAI API
+    // Try to use OpenAI API with gpt-3.5-turbo as requested
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -64,7 +64,7 @@ class AIHealthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'gpt-3.5-turbo',
           messages: [
             {
               role: 'system',
@@ -126,3 +126,5 @@ class AIHealthService {
 }
 
 export const aiHealthService = new AIHealthService();
+
+// Note: Add your OpenAI API key to use real AI responses

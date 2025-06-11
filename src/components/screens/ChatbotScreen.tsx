@@ -20,6 +20,7 @@ const ChatbotScreen = () => {
   const [showNameInput, setShowNameInput] = useState(false);
   const [tempName, setTempName] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
 
   const quickQuestions = [
@@ -94,6 +95,13 @@ const ChatbotScreen = () => {
       localStorage.setItem('health_mate_chat_history', JSON.stringify(messages));
     }
   }, [messages, userName]);
+
+  // Focus input after loading is complete
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isLoading]);
 
   const handleNameSubmit = () => {
     if (tempName.trim()) {
@@ -335,6 +343,7 @@ const ChatbotScreen = () => {
         <div className="bg-white/80 backdrop-blur-md p-4 border-t border-green-100">
           <div className="flex items-center space-x-3">
             <input
+              ref={inputRef}
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -342,6 +351,7 @@ const ChatbotScreen = () => {
               placeholder="Ask about nutrition, stress, exercise..."
               disabled={isLoading}
               className="flex-1 bg-gray-100 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 border-none disabled:opacity-50"
+              autoFocus
             />
             
             {/* Voice input button */}
