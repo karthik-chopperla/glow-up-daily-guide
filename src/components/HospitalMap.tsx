@@ -1,6 +1,4 @@
-
 import React, { useEffect, useRef, useState } from "react";
-import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Type for hospital data
 type HospitalData = {
