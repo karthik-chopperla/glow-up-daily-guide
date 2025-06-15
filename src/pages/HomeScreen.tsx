@@ -23,12 +23,13 @@ const features = [
     to: "/chatbot",
     emoji: "🤖",
   },
-  {
-    label: "Records",
-    icon: <FileText className="text-blue-500" size={28} />,
-    to: "/records",
-    emoji: "📁",
-  },
+  // Removed Records card from the homepage as requested.
+  // {
+  //   label: "Records",
+  //   icon: <FileText className="text-blue-500" size={28} />,
+  //   to: "/records",
+  //   emoji: "📁",
+  // },
 ];
 
 const HomeScreen = () => {
@@ -71,3 +72,4 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
