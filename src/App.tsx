@@ -24,6 +24,7 @@ import Profile from "./pages/Profile";
 import HomeScreen from "./pages/HomeScreen";
 import ServicesScreen from "./pages/ServicesScreen";
 import BottomTabNav from "./components/BottomTabNav";
+import FabSOS from "./components/ui/FabSOS";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
             <BottomTabNav />
+            <FabSOS /> {/* <-- 💡 Always-on Emergency SOS */}
           </BrowserRouter>
         </AppProvider>
       </AuthProvider>
