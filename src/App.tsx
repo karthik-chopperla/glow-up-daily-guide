@@ -26,6 +26,9 @@ import ServicesScreen from "./pages/ServicesScreen";
 import BottomTabNav from "./components/BottomTabNav";
 import FabSOS from "./components/ui/FabSOS";
 import FindFood from "./pages/FindFood";
+import MentalHealthSupport from "./pages/MentalHealthSupport";
+import HomeNursingBooking from "./pages/HomeNursingBooking";
+import PregnancyCarePlan from "./pages/PregnancyCarePlan";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +61,9 @@ const App = () => (
               <Route path="/pregnancy-baby" element={<PregnancyBaby />} />
               <Route path="/fitness" element={<Fitness />} />
               <Route path="/insurance" element={<Insurance />} />
+              <Route path="/mental-health-support" element={<MentalHealthSupport />} />
+              <Route path="/home-nursing-booking" element={<HomeNursingBooking />} />
+              <Route path="/pregnancy-care-plan" element={<PregnancyCarePlan />} />
               {/* Auth */}
               <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<Navigate to="/" />} />

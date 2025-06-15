@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,7 +15,7 @@ import {
   Baby,
   Dumbbell,
   ShieldCheck,
-  Search
+  Search,
 } from "lucide-react";
 
 const services = [
@@ -23,10 +24,13 @@ const services = [
   { label: "Hospital Finder", icon: <Hospital className="text-teal-500" size={28} />, to: "/hospitals" },
   { label: "Doctor Booking", icon: <User className="text-purple-500" size={28} />, to: "/doctor-booking" },
   { label: "Medicine Reminders", icon: <Syringe className="text-pink-400" size={28} />, to: "/medicine-reminders" },
-  { label: "Mental Health", icon: <Brain className="text-blue-400" size={28} />, to: "/mental" },
-  { label: "Home Nursing", icon: <Activity className="text-yellow-400" size={28} />, to: "/nursing" },
+  // Add: Mental Health Support
+  { label: "Mental Health Support", icon: <Brain className="text-blue-400" size={28} />, to: "/mental-health-support", emoji: "🧠" },
+  // Add: Home Nursing
+  { label: "Home Nursing", icon: <Activity className="text-yellow-400" size={28} />, to: "/home-nursing-booking", emoji: "👩‍⚕️" },
+  // Add: Pregnancy Care Plan
+  { label: "Pregnancy Care Plan", icon: <Baby className="text-pink-300" size={28} />, to: "/pregnancy-care-plan", emoji: "🤰" },
   { label: "Diet Plans", icon: <Apple className="text-emerald-600" size={28} />, to: "/diet-meals" },
-  { label: "Pregnancy & Baby", icon: <Baby className="text-pink-300" size={28} />, to: "/pregnancy-baby" },
   { label: "Fitness Recovery", icon: <Dumbbell className="text-blue-300" size={28} />, to: "/fitness" },
   { label: "Health Insurance", icon: <ShieldCheck className="text-lime-500" size={28} />, to: "/insurance" },
   { label: "My Records", icon: <FileText className="text-blue-500" size={28} />, to: "/records" },
@@ -44,7 +48,7 @@ const ServicesScreen = () => {
         <h1 className="text-xl font-bold text-gray-800 ml-2">All Services</h1>
       </header>
       <main className="flex-1">
-        <div className="grid grid-cols-3 gap-3 px-4 py-4 max-w-md mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 px-4 py-4 max-w-md mx-auto">
           {services.map((s) => (
             <button
               key={s.label}
