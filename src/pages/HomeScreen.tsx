@@ -28,6 +28,13 @@ const features = [
     to: "/records",
     emoji: "📁",
   },
+  // NEW FEATURE CARD
+  {
+    label: "Find Food",
+    icon: <Search className="text-orange-400" size={28} />,
+    to: "/find-food",
+    emoji: "🍽️",
+  },
 ];
 
 const HomeScreen = () => {
@@ -41,7 +48,7 @@ const HomeScreen = () => {
       </header>
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-sm mb-6">
-          {features.map((f, i) => (
+          {features.slice(0, 4).map((f, i) => (
             <button
               key={f.label}
               className="rounded-xl shadow-md bg-white flex flex-col items-center p-6 justify-center gap-2 hover:bg-green-50 transition-all font-medium text-gray-800 active:scale-95"
@@ -52,6 +59,16 @@ const HomeScreen = () => {
             </button>
           ))}
         </div>
+        {/* Add the Find Food card as a 5th option below, if not in 4 cards above */}
+        {!features.slice(0,4).some(f=>f.to==="/find-food") && (
+          <button
+            className="rounded-xl shadow-md bg-white flex flex-col items-center p-6 justify-center gap-2 hover:bg-green-50 transition-all font-medium text-gray-800 active:scale-95 mb-3"
+            onClick={() => nav("/find-food")}
+          >
+            <span className="text-3xl">🍽️</span>
+            <span className="mt-2 text-lg">Find Food</span>
+          </button>
+        )}
         <button
           className="w-full bg-gradient-to-r from-green-400 to-blue-400 text-white font-semibold rounded-2xl py-3 px-7 text-lg shadow-lg active:scale-95 hover:from-green-400/80 hover:to-blue-400/80 transition-all"
           onClick={() => nav("/services")}

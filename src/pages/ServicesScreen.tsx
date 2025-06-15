@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,6 +14,7 @@ import {
   Baby,
   Dumbbell,
   ShieldCheck,
+  Search
 } from "lucide-react";
 
 const services = [
@@ -30,7 +30,8 @@ const services = [
   { label: "Fitness Recovery", icon: <Dumbbell className="text-blue-300" size={28} />, to: "/fitness" },
   { label: "Health Insurance", icon: <ShieldCheck className="text-lime-500" size={28} />, to: "/insurance" },
   { label: "My Records", icon: <FileText className="text-blue-500" size={28} />, to: "/records" },
-  { label: "AI Chatbot", icon: <MessageCircle className="text-purple-400" size={28} />, to: "/chatbot" }
+  { label: "AI Chatbot", icon: <MessageCircle className="text-purple-400" size={28} />, to: "/chatbot" },
+  { label: "Find Food", icon: <Search className="text-orange-400" size={28} />, to: "/find-food" }
 ];
 
 const ServicesScreen = () => {

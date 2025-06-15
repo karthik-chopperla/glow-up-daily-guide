@@ -25,6 +25,7 @@ import HomeScreen from "./pages/HomeScreen";
 import ServicesScreen from "./pages/ServicesScreen";
 import BottomTabNav from "./components/BottomTabNav";
 import FabSOS from "./components/ui/FabSOS";
+import FindFood from "./pages/FindFood";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,8 @@ const App = () => (
               <Route path="/chatbot" element={<ChatbotScreen />} />
               <Route path="/records" element={<MyRecords />} />
               <Route path="/profile" element={<Profile />} />
+              {/* NEW: Find Food route */}
+              <Route path="/find-food" element={<FindFood />} />
               {/* Feature Routes */}
               <Route path="/symptom-checker" element={<SymptomChecker />} />
               <Route path="/remedies" element={<HomeRemedies />} />
