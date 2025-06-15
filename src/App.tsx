@@ -1,10 +1,27 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { AppProvider } from "./contexts/AppProvider";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import ChatbotScreen from "./components/screens/ChatbotScreen";
+import SymptomChecker from "./pages/SymptomChecker";
+import HomeRemedies from "./pages/HomeRemedies";
+import Hospitals from "./pages/Hospitals";
+import DoctorBooking from "./pages/DoctorBooking";
+import MedReminders from "./pages/MedReminders";
+import MentalWellBeing from "./pages/MentalWellBeing";
+import HomeNursing from "./pages/HomeNursing";
+import DietMeals from "./pages/DietMeals";
+import PregnancyBaby from "./pages/PregnancyBaby";
+import Fitness from "./pages/Fitness";
+import Insurance from "./pages/Insurance";
+import MyRecords from "./pages/MyRecords";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -13,13 +30,31 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <AppProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/chatbot" element={<ChatbotScreen />} />
+              <Route path="/symptom-checker" element={<SymptomChecker />} />
+              <Route path="/remedies" element={<HomeRemedies />} />
+              <Route path="/hospitals" element={<Hospitals />} />
+              <Route path="/doctor-booking" element={<DoctorBooking />} />
+              <Route path="/medicine-reminders" element={<MedReminders />} />
+              <Route path="/mental" element={<MentalWellBeing />} />
+              <Route path="/nursing" element={<HomeNursing />} />
+              <Route path="/diet-meals" element={<DietMeals />} />
+              <Route path="/pregnancy-baby" element={<PregnancyBaby />} />
+              <Route path="/fitness" element={<Fitness />} />
+              <Route path="/insurance" element={<Insurance />} />
+              <Route path="/records" element={<MyRecords />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </BrowserRouter>
+        </AppProvider>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
