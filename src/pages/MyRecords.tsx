@@ -1,9 +1,8 @@
-
 import React, { useState, useRef } from "react";
 import BackButton from "../components/BackButton";
 import RecordUploadDialog from "../components/RecordUploadDialog";
 import { RecordCard } from "../components/RecordCard";
-import { Lock, Search, Download } from "lucide-react";
+import { Lock, Search, Download, Folder } from "lucide-react";
 
 type RecordType = "Prescription" | "Report" | "Scan" | "Bill" | "Other";
 type Record = {
