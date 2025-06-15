@@ -13,7 +13,18 @@ interface ChatInputProps {
 }
 
 const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
-  ({ message, isLoading, isListening, onMessageChange, onSend, onStartListening, hasSpeechRecognition }, ref) => {
+  (
+    {
+      message,
+      isLoading,
+      isListening,
+      onMessageChange,
+      onSend,
+      onStartListening,
+      hasSpeechRecognition,
+    },
+    ref
+  ) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -23,7 +34,7 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
       }
     };
 
-    // Auto-resize textarea
+    // --- Auto-resize textarea
     useEffect(() => {
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
@@ -31,11 +42,10 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
       }
     }, [message]);
 
-    // Handle focus forwarding
+    // --- Forward inputRef to textarea, so parent can call .focus()
     useEffect(() => {
       if (ref && typeof ref === 'object' && ref.current) {
-        const focusTextarea = () => textareaRef.current?.focus();
-        (ref.current as any).focus = focusTextarea;
+        (ref.current as any).focus = () => textareaRef.current?.focus();
       }
     }, [ref]);
 
@@ -50,18 +60,17 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
             placeholder="Ask about nutrition, stress, exercise..."
             disabled={isLoading}
             rows={1}
-            className="flex-1 bg-gray-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 border-none disabled:opacity-50 resize-none min-h-[48px] max-h-[120px]"
+            className="flex-1 bg-gray-100 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-300 border-none disabled:opacity-50 resize-none min-h-[48px] max-h-[120px] transition-all"
             autoFocus
           />
-          
           {/* Voice input button */}
           {hasSpeechRecognition && (
             <button
               onClick={onStartListening}
               disabled={isLoading || isListening}
               className={`p-3 rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 ${
-                isListening 
-                  ? 'bg-blue-500 text-white animate-pulse' 
+                isListening
+                  ? 'bg-blue-500 text-white animate-pulse'
                   : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
               }`}
               title="Voice input"
@@ -69,7 +78,6 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
               <Mic size={16} />
             </button>
           )}
-          
           {/* Send button */}
           <button
             onClick={onSend}
@@ -79,6 +87,15 @@ const ChatInput = forwardRef<HTMLInputElement, ChatInputProps>(
             <Send size={16} />
           </button>
         </div>
+        {/* Typing animation */}
+        {isLoading && (
+          <div className="flex items-center mt-2 ml-4">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce mr-1"></span>
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce mr-1" style={{ animationDelay: '0.15s' }}></span>
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></span>
+            <span className="ml-2 text-xs text-gray-500">Health Mate is thinking…</span>
+          </div>
+        )}
       </div>
     );
   }

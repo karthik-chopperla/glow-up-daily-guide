@@ -1,5 +1,5 @@
 
-import { Bot, Sparkles, Trash2 } from 'lucide-react';
+import { Bot, Trash2 } from 'lucide-react';
 
 interface ChatHeaderProps {
   userName: string;
@@ -11,16 +11,17 @@ const ChatHeader = ({ userName, onClearChat }: ChatHeaderProps) => {
     <div className="bg-white/80 backdrop-blur-md p-6 border-b border-green-100 relative">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          {/* Bot Avatar */}
-          <div className="bg-gradient-to-r from-green-400 to-blue-500 p-3 rounded-full mr-3 animate-scale-in">
-            <Bot className="text-white" size={24} />
+          {/* Bot Avatar (top-left, emoji style) */}
+          <div className="bg-gradient-to-r from-green-300 to-blue-400 p-3 rounded-full mr-3 animate-scale-in">
+            <span aria-label="bot" role="img" className="text-xl">🤖</span>
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-800 flex items-center">
-              Health Mate AI 
-              <Sparkles className="ml-2 text-yellow-500" size={16} />
+              Health Mate AI
             </h1>
-            <p className="text-sm text-gray-600">Chat with {userName} • Always here to help 🤖</p>
+            <p className="text-sm text-gray-600">
+              Chat with {userName} • Always here to help 🤖
+            </p>
           </div>
         </div>
         <button

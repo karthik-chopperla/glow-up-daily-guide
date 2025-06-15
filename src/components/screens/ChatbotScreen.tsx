@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import NameInputModal from '../chat/NameInputModal';
 import ChatHeader from '../chat/ChatHeader';
@@ -17,7 +16,7 @@ const ChatbotScreen = () => {
 
   const quickQuestions = [
     "What should I eat today?",
-    "How do I reduce anxiety?", 
+    "How do I reduce anxiety?",
     "Give me a breathing exercise",
     "Tips for better sleep"
   ];
@@ -31,14 +30,16 @@ const ChatbotScreen = () => {
     inputRef,
     handleSend,
     clearChat,
-    healthData,
     getHealthSummary,
-    checkHeartRate
+    checkHeartRate,
+    askSteps,
+    askWater,
+    askSleep,
+    askCalories
   } = useChat(userName);
 
   const handleSpeechResult = (transcript: string) => {
     setMessage(transcript);
-    // Auto-send the voice message
     handleSend(transcript);
   };
 
@@ -66,16 +67,6 @@ const ChatbotScreen = () => {
     setTimeout(() => inputRef.current?.focus(), 300);
   };
 
-  const handleStepsTrack = () => {
-    handleSend("How many steps did you walk today?");
-    setTimeout(() => inputRef.current?.focus(), 300);
-  };
-
-  const handleWaterTrack = () => {
-    handleSend("How many glasses of water did you drink today?");
-    setTimeout(() => inputRef.current?.focus(), 300);
-  };
-
   const handleSuggestionClick = (suggestion: string) => {
     handleSend(suggestion);
     setTimeout(() => inputRef.current?.focus(), 300);
@@ -89,26 +80,28 @@ const ChatbotScreen = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 flex flex-col">
       <div className="max-w-md mx-auto w-full flex flex-col h-screen">
-        {/* Header with bot avatar */}
+        {/* Header with bot avatar and clear button */}
         <ChatHeader userName={userName} onClearChat={clearChat} />
 
         {/* Health Tracking Buttons */}
-        <HealthButtons 
+        <HealthButtons
           onHealthSummary={getHealthSummary}
           onHeartRateCheck={checkHeartRate}
-          onStepsTrack={handleStepsTrack}
-          onWaterTrack={handleWaterTrack}
+          onStepsTrack={askSteps}
+          onWaterTrack={askWater}
+          onSleepTrack={askSleep}
+          onCalorieTrack={askCalories}
         />
 
         {/* Quick Questions */}
-        <QuickQuestions 
+        <QuickQuestions
           questions={quickQuestions}
           onQuestionClick={handleQuickQuestion}
           showQuestions={messages.length <= 1}
         />
 
-        {/* Messages */}
-        <MessageList 
+        {/* Message list */}
+        <MessageList
           messages={messages}
           isLoading={isLoading}
           ref={messagesEndRef}
