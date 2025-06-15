@@ -1,6 +1,5 @@
 
 import React, { useEffect, useRef, useState } from "react";
-import mapboxgl, { Map, Marker, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Type for hospital data
@@ -20,13 +19,28 @@ const HospitalMap = ({
   hospitals: HospitalData[];
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<Map | null>(null);
+  const map = useRef<any>(null);
+  const mapboxglRef = useRef<any>(null); // will hold dynamically imported mapboxgl
   const [token, setToken] = useState<string>(() => localStorage.getItem('mapbox_token') || '');
+  const [mapboxReady, setMapboxReady] = useState(false);
+
+  // Dynamically import mapbox-gl in client only
+  useEffect(() => {
+    // Only run on client
+    if (typeof window !== "undefined") {
+      import("mapbox-gl").then(mod => {
+        mapboxglRef.current = mod.default;
+        setMapboxReady(true);
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    if (!token || !mapContainer.current) return;
+    if (!token || !mapboxReady || !mapContainer.current || !mapboxglRef.current) return;
 
+    const mapboxgl = mapboxglRef.current;
     mapboxgl.accessToken = token;
+
     // Clean up previous map instance on re-init
     if (map.current) {
       map.current.remove();
@@ -41,12 +55,12 @@ const HospitalMap = ({
     });
 
     hospitals.forEach((h) => {
-      new Marker()
+      new mapboxgl.Marker()
         .setLngLat([h.lng, h.lat])
         .setPopup(
-          new Popup().setHTML(`<b>${h.name}</b>`)
+          new mapboxgl.Popup().setHTML(`<b>${h.name}</b>`)
         )
-        .addTo(map.current!);
+        .addTo(map.current);
     });
 
     return () => {
@@ -55,7 +69,8 @@ const HospitalMap = ({
         map.current = null;
       }
     };
-  }, [token, coords, hospitals]);
+  // eslint-disable-next-line
+  }, [token, coords, hospitals, mapboxReady]);
 
   if (!token) {
     return (
@@ -71,7 +86,16 @@ const HospitalMap = ({
             localStorage.setItem('mapbox_token', e.target.value);
           }}
         />
-        <div className="text-xs text-gray-400 text-center">Get your public token from <a className="underline text-blue-500" href="https://account.mapbox.com/" target="_blank">mapbox.com</a></div>
+        <div className="text-xs text-gray-400 text-center">Get your public token from <a className="underline text-blue-500" href="https://account.mapbox.com/" target="_blank" rel="noreferrer">mapbox.com</a></div>
+      </div>
+    );
+  }
+
+  // Wait for mapbox-gl to be loaded
+  if (!mapboxReady) {
+    return (
+      <div className="w-full min-h-[300px] rounded-md shadow flex items-center justify-center text-gray-400 text-sm">
+        Loading map...
       </div>
     );
   }
