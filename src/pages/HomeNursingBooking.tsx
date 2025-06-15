@@ -13,12 +13,13 @@ const careTypes = [
   "Long-Term Illness",
   "Rehab",
 ] as const;
+type CareType = typeof careTypes[number];
 
 const nurseDbKey = "home_nursing_bookings";
 
 const HomeNursingBooking: React.FC = () => {
   const nav = useNavigate();
-  const [type, setType] = useState(careTypes[0]);
+  const [type, setType] = useState<CareType>("Wound Care");
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");
   const [address, setAddress] = useState("");
@@ -54,7 +55,7 @@ const HomeNursingBooking: React.FC = () => {
             </CardHeader>
             <CardContent>
               <label className="font-medium mb-1 block">Service Type</label>
-              <select className="w-full border rounded mb-3 p-2" value={type} onChange={(e)=>setType(e.target.value as typeof careTypes[number])}>
+              <select className="w-full border rounded mb-3 p-2" value={type} onChange={(e)=>setType(e.target.value as CareType)}>
                 {careTypes.map(c=><option key={c} value={c}>{c}</option>)}
               </select>
               <label className="font-medium mb-1 block">Date</label>
