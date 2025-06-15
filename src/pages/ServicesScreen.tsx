@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -35,7 +34,9 @@ const services = [
   { label: "Health Insurance", icon: <ShieldCheck className="text-lime-500" size={28} />, to: "/insurance" },
   { label: "My Records", icon: <FileText className="text-blue-500" size={28} />, to: "/records" },
   { label: "AI Chatbot", icon: <MessageCircle className="text-purple-400" size={28} />, to: "/chatbot" },
-  { label: "Find Food", icon: <Search className="text-orange-400" size={28} />, to: "/find-food" }
+  { label: "Find Food", icon: <Search className="text-orange-400" size={28} />, to: "/find-food" },
+  // Add the Subscription Plans card (new)
+  { label: "Subscription Plans", icon: <span className="text-yellow-400" style={{fontSize: 28}}>🪙</span>, to: "/subscription-plans", emoji: "🪙" }
 ];
 
 const ServicesScreen = () => {

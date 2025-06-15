@@ -29,6 +29,7 @@ import FindFood from "./pages/FindFood";
 import MentalHealthSupport from "./pages/MentalHealthSupport";
 import HomeNursingBooking from "./pages/HomeNursingBooking";
 import PregnancyCarePlan from "./pages/PregnancyCarePlan";
+import SubscriptionPlans from "./pages/SubscriptionPlans";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
               <Route path="/mental-health-support" element={<MentalHealthSupport />} />
               <Route path="/home-nursing-booking" element={<HomeNursingBooking />} />
               <Route path="/pregnancy-care-plan" element={<PregnancyCarePlan />} />
+              <Route path="/subscription-plans" element={<SubscriptionPlans />} />
               {/* Auth */}
               <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<Navigate to="/" />} />
