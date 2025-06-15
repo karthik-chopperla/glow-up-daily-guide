@@ -1,13 +1,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
+import mapboxgl, { Map, Marker, Popup } from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// Lazy import mapbox-gl only on client
-let mapboxgl: any;
-if (typeof window !== "undefined") {
-  import("mapbox-gl").then((mb) => (mapboxgl = mb.default));
-}
-
+// Type for hospital data
 type HospitalData = {
   id: string;
   name: string;
@@ -24,13 +20,19 @@ const HospitalMap = ({
   hospitals: HospitalData[];
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<any>(null);
-  const [token, setToken] = useState(localStorage.getItem('mapbox_token') || '');
+  const map = useRef<Map | null>(null);
+  const [token, setToken] = useState<string>(() => localStorage.getItem('mapbox_token') || '');
 
   useEffect(() => {
-    if (!token || !mapboxgl || !mapContainer.current) return;
+    if (!token || !mapContainer.current) return;
 
     mapboxgl.accessToken = token;
+    // Clean up previous map instance on re-init
+    if (map.current) {
+      map.current.remove();
+      map.current = null;
+    }
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -39,17 +41,21 @@ const HospitalMap = ({
     });
 
     hospitals.forEach((h) => {
-      new mapboxgl.Marker()
+      new Marker()
         .setLngLat([h.lng, h.lat])
         .setPopup(
-          new mapboxgl.Popup().setHTML(`<b>${h.name}</b>`)
+          new Popup().setHTML(`<b>${h.name}</b>`)
         )
-        .addTo(map.current);
+        .addTo(map.current!);
     });
 
-    return () => map.current && map.current.remove();
-    // eslint-disable-next-line
-  }, [token, coords, hospitals?.length]);
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, [token, coords, hospitals]);
 
   if (!token) {
     return (
@@ -69,6 +75,7 @@ const HospitalMap = ({
       </div>
     );
   }
+
   return <div ref={mapContainer} className="w-full min-h-[300px] rounded-md shadow" />;
 };
 
