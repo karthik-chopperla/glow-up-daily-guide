@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +21,9 @@ import Fitness from "./pages/Fitness";
 import Insurance from "./pages/Insurance";
 import MyRecords from "./pages/MyRecords";
 import Profile from "./pages/Profile";
+import HomeScreen from "./pages/HomeScreen";
+import ServicesScreen from "./pages/ServicesScreen";
+import BottomTabNav from "./components/BottomTabNav";
 
 const queryClient = new QueryClient();
 
@@ -34,9 +36,13 @@ const App = () => (
         <AppProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/" element={<Dashboard />} />
+              {/* Updated Main Navigation */}
+              <Route path="/" element={<HomeScreen />} />
+              <Route path="/services" element={<ServicesScreen />} />
               <Route path="/chatbot" element={<ChatbotScreen />} />
+              <Route path="/records" element={<MyRecords />} />
+              <Route path="/profile" element={<Profile />} />
+              {/* Feature Routes */}
               <Route path="/symptom-checker" element={<SymptomChecker />} />
               <Route path="/remedies" element={<HomeRemedies />} />
               <Route path="/hospitals" element={<Hospitals />} />
@@ -48,10 +54,11 @@ const App = () => (
               <Route path="/pregnancy-baby" element={<PregnancyBaby />} />
               <Route path="/fitness" element={<Fitness />} />
               <Route path="/insurance" element={<Insurance />} />
-              <Route path="/records" element={<MyRecords />} />
-              <Route path="/profile" element={<Profile />} />
+              {/* Auth */}
+              <Route path="/auth" element={<Auth />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <BottomTabNav />
           </BrowserRouter>
         </AppProvider>
       </AuthProvider>

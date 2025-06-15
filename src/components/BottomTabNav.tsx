@@ -1,38 +1,40 @@
 
-import { Home, MessageCircle, Layers, FileText, User } from "lucide-react";
+import { Home, Layers, MessageCircle, FileText, User } from "lucide-react";
 
-const nav = [
-  { id: "dashboard", label: "Dashboard", icon: Home },
-  { id: "chatbot", label: "Chatbot", icon: MessageCircle },
-  { id: "services", label: "Services", icon: Layers },
-  { id: "records", label: "Records", icon: FileText },
-  { id: "profile", label: "Profile", icon: User },
+const tabs = [
+  { id: "home", label: "Home", icon: Home, path: "/" },
+  { id: "services", label: "Services", icon: Layers, path: "/services" },
+  { id: "chatbot", label: "Chatbot", icon: MessageCircle, path: "/chatbot" },
+  { id: "records", label: "Records", icon: FileText, path: "/records" },
+  { id: "profile", label: "Profile", icon: User, path: "/profile" },
 ];
 
-interface BottomTabNavProps {
-  current: string;
-  onChange: (id: string) => void;
-}
+import { useLocation, useNavigate } from "react-router-dom";
 
-const BottomTabNav = ({ current, onChange }: BottomTabNavProps) => (
-  <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white shadow-md py-2">
-    <div className="flex justify-around max-w-md mx-auto">
-      {nav.map(n => {
-        const Icon = n.icon;
-        const isActive = current === n.id;
-        return (
-          <button
-            key={n.id}
-            className={`flex flex-col items-center px-2 ${isActive ? "text-blue-700 font-bold" : "text-gray-500"} focus:outline-none`}
-            onClick={() => onChange(n.id)}
-          >
-            <Icon size={22} />
-            <span className="text-xs">{n.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  </nav>
-);
+const BottomTabNav = () => {
+  const loc = useLocation();
+  const nav = useNavigate();
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white shadow-md py-2 rounded-t-xl border-t border-green-100">
+      <div className="flex justify-around max-w-md mx-auto">
+        {tabs.map(tab => {
+          const Icon = tab.icon;
+          const isActive = loc.pathname === tab.path;
+          return (
+            <button
+              key={tab.id}
+              className={`flex flex-col items-center px-2 py-1 ${isActive ? "text-green-700 font-bold" : "text-gray-500"} focus:outline-none`}
+              onClick={() => nav(tab.path)}
+            >
+              <Icon size={22} />
+              <span className="text-xs">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+};
 
 export default BottomTabNav;
