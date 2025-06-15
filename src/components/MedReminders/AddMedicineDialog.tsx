@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,14 @@ const AddMedicineDialog: React.FC<AddMedicineDialogProps> = ({
 
   useEffect(() => {
     if (editReminder) {
-      reset(editReminder);
+      // Ensure frequency is always part of the editReminder passed in
+      reset({
+        name: editReminder.name ?? "",
+        dose: editReminder.dose ?? "",
+        frequency: editReminder.frequency ?? "Once daily",
+        times: editReminder.times ?? ["08:00"],
+        autoRefill: editReminder.autoRefill ?? false,
+      });
     } else {
       reset({
         name: "",
@@ -70,10 +76,11 @@ const AddMedicineDialog: React.FC<AddMedicineDialogProps> = ({
   }, [frequency, setValue]);
 
   const onSubmit = (values: any) => {
+    // Always save frequency as a string on the reminder object
     if (editReminder) {
       setReminders(
         reminders.map((r) =>
-          r.id === editReminder.id ? { ...r, ...values } : r
+          r.id === editReminder.id ? { ...r, ...values, frequency: values.frequency } : r
         )
       );
     } else {
@@ -81,6 +88,7 @@ const AddMedicineDialog: React.FC<AddMedicineDialogProps> = ({
         ...reminders,
         {
           ...values,
+          frequency: values.frequency, // explicitly set frequency
           id: uuidv4(),
           taken: {},
         },

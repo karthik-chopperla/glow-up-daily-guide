@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 // Types
@@ -12,6 +11,7 @@ export interface Reminder {
   id: string;
   name: string;
   dose: string;
+  frequency: string; // Add frequency as required field
   times: string[];
   autoRefill: boolean;
   taken: Record<string, boolean>;
